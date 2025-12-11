@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approval Dashboard - Field Training System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Admin Login Page -->
+    <div id="adminLoginPage" class="page active">
+        <div class="container">
+            <div class="form-container">
+                <h1>Head of Unit - Approval Dashboard</h1>
+                <form onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label for="adminEmail">Email:</label>
+                        <input type="email" id="adminEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password:</label>
+                        <input type="password" id="adminPassword" required>
+                    </div>
+                    <button type="submit" class="btn">Login as Admin</button>
+                </form>
+                <div style="margin-top: 20px; text-align: center;">
+                    <a href="index.html" style="color: #007bff;">← Back to Student Portal</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Approval Dashboard Page -->
+    <div id="approvalDashboardPage" class="page">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Approval Dashboard - <span id="adminName"></span></h1>
+                <button class="btn btn-logout" onclick="handleAdminLogout()">Logout</button>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="dashboard-nav">
+                    <button class="nav-button active" onclick="switchApprovalView('pending')">Pending Applications</button>
+                    <button class="nav-button" onclick="switchApprovalView('all')">All Applications</button>
+                    <button class="nav-button" onclick="switchApprovalView('search')">Search History</button>
+                </div>
+
+                <!-- Pending Applications View -->
+                <div id="pendingView" class="dashboard-view active">
+                    <h2>Pending Applications</h2>
+                    <div class="filter-section">
+                        <button class="btn-filter active" onclick="filterApplications('all')">All</button>
+                        <button class="btn-filter" onclick="filterApplications('WAITING FOR APPROVAL')">Waiting</button>
+                    </div>
+                    <div id="pendingApplicationsList" class="applications-list">
+                        <p>Loading applications...</p>
+                    </div>
+                </div>
+
+                <!-- All Applications View -->
+                <div id="allView" class="dashboard-view">
+                    <h2>All Applications</h2>
+                    <div class="filter-section">
+                        <button class="btn-filter active" onclick="filterAllApplications('all')">All</button>
+                        <button class="btn-filter" onclick="filterAllApplications('WAITING FOR APPROVAL')">Waiting</button>
+                        <button class="btn-filter" onclick="filterAllApplications('APPROVED')">Approved</button>
+                        <button class="btn-filter" onclick="filterAllApplications('REJECTED')">Rejected</button>
+                    </div>
+                    <div id="allApplicationsList" class="applications-list">
+                        <p>Loading applications...</p>
+                    </div>
+                </div>
+
+                <!-- Search History View -->
+                <div id="searchView" class="dashboard-view">
+                    <h2>Search Student History</h2>
+                    <div class="search-section">
+                        <div class="form-group">
+                            <input type="text" id="searchInput" placeholder="Enter Student ID or Email">
+                            <button class="btn" onclick="performSearch()">Search</button>
+                        </div>
+                    </div>
+                    <div id="searchResultsList" class="applications-list">
+                        <p>Enter a student ID or email to search</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Detail Modal -->
+    <div id="applicationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Application Details</h2>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="approval.js"></script>
+</body>
+</html>
