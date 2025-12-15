@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - AMS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-section">
+                <h1>Shaqra University</h1>
+                <h2>College of Computing and Information Technology</h2>
+                <h3>Student Login</h3>
+                <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            </div>
+        </header>
+
+        <main class="form-content">
+            <div class="form-container login-form">
+                <div class="login-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="universityId"><i class="fas fa-id-card"></i> University ID *</label>
+                        <input type="text" id="universityId" name="universityId" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password *</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                        <button type="button" onclick="window.location.href='register.html'" class="btn btn-secondary">
+                            <i class="fas fa-user-plus"></i> New User? Register
+                        </button>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 15px;">
+                        <a href="forgot-password.html" style="color: var(--primary-color); text-decoration: none;">
+                            <i class="fas fa-key"></i> Forgot Password?
+                        </a>
+                    </div>
+                </form>
+
+                <div id="message" class="message" style="display: none;"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Shaqra University - College of Computing and Information Technology</p>
+            <p>Student Absence Management System</p>
+        </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

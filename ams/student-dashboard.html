@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - AMS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-section">
+                <h1>Shaqra University</h1>
+                <h2>College of Computing and Information Technology</h2>
+                <h3>Student Dashboard</h3>
+            </div>
+            <nav>
+                <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul id="navMenu">
+                    <li><a href="student-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="apply-leave.html"><i class="fas fa-plus-circle"></i> Apply for Leave</a></li>
+                    <li><a href="#" onclick="logout(); return false;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="dashboard-content">
+            <div class="dashboard-header">
+                <h2>Welcome, <span id="studentName"></span></h2>
+                <button onclick="window.location.href='apply-leave.html'" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> Apply for Leave
+                </button>
+            </div>
+
+            <div class="student-info-card">
+                <h3><i class="fas fa-user"></i> Your Information</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label><i class="fas fa-id-card"></i> University ID:</label>
+                        <span id="universityId"></span>
+                    </div>
+                    <div class="info-item">
+                        <label><i class="fas fa-envelope"></i> Email:</label>
+                        <span id="email"></span>
+                    </div>
+                    <div class="info-item">
+                        <label><i class="fas fa-building"></i> Department:</label>
+                        <span id="department"></span>
+                    </div>
+                    <div class="info-item">
+                        <label><i class="fas fa-chalkboard-teacher"></i> Academic Advisor:</label>
+                        <span id="advisorName"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="applications-section">
+                <h3><i class="fas fa-file-alt"></i> My Leave Applications</h3>
+                <div class="applications-grid" id="applicationsContainer">
+                    <p class="loading"><i class="fas fa-spinner fa-spin"></i> Loading applications...</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Shaqra University - College of Computing and Information Technology</p>
+            <p>Student Absence Management System</p>
+        </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/student-dashboard.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Leave - AMS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-section">
+                <h1>Shaqra University</h1>
+                <h2>College of Computing and Information Technology</h2>
+                <h3>Apply for Leave</h3>
+            </div>
+            <nav>
+                <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul id="navMenu">
+                    <li><a href="student-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="apply-leave.html" class="active"><i class="fas fa-plus-circle"></i> Apply for Leave</a></li>
+                    <li><a href="#" onclick="logout(); return false;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="form-content">
+            <div class="form-container">
+                <form id="leaveApplicationForm">
+                    <div class="form-section">
+                        <h3><i class="fas fa-calendar-alt"></i> Leave Duration</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dateFrom"><i class="far fa-calendar"></i> Date From *</label>
+                                <input type="date" id="dateFrom" name="dateFrom" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dateTo"><i class="far fa-calendar"></i> Date To *</label>
+                                <input type="date" id="dateTo" name="dateTo" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="totalDays"><i class="fas fa-calculator"></i> Total Days *</label>
+                            <input type="number" id="totalDays" name="totalDays" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reason"><i class="fas fa-comment-alt"></i> Reason for Leave *</label>
+                            <textarea id="reason" name="reason" rows="4" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section courses-section">
+                        <h3><i class="fas fa-book"></i> Courses Missed</h3>
+                        <p class="help-text">Add details of courses you missed during the leave period (Maximum 5)</p>
+                        
+                        <div id="coursesContainer">
+                            <div class="course-entry" data-course="1">
+                                <div class="course-header">
+                                    <h4><i class="fas fa-book-open"></i> Course 1</h4>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="courseName1">Course Name *</label>
+                                        <input type="text" id="courseName1" name="courseName1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="teacherName1">Teacher Name *</label>
+                                        <input type="text" id="teacherName1" name="teacherName1" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="classType1">Class Type *</label>
+                                    <select id="classType1" name="classType1" required>
+                                        <option value="">Select Type</option>
+                                        <option value="Lecture">Lecture</option>
+                                        <option value="Practical">Practical</option>
+                                        <option value="Tutorial">Tutorial</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" id="addCourseBtn" class="btn btn-secondary btn-small">
+                            <i class="fas fa-plus"></i> Add Another Course
+                        </button>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-file-pdf"></i> Supporting Document</h3>
+                        
+                        <div class="form-group file-upload-group">
+                            <label for="proofDocument">Upload Proof (PDF only) *</label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="proofDocument" name="proofDocument" accept=".pdf" required>
+                                <label for="proofDocument" class="file-input-label">
+                                    <i class="fas fa-upload"></i> 
+                                    <span class="file-name">Click to choose file or drag & drop</span>
+                                </label>
+                            </div>
+                            <small><i class="fas fa-info-circle"></i> Upload medical certificate, official letter, or other proof (Max 5MB)</small>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit Application
+                        </button>
+                        <button type="button" onclick="window.location.href='student-dashboard.html'" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+
+                <div id="message" class="message" style="display: none;"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Shaqra University - College of Computing and Information Technology</p>
+            <p>Student Absence Management System</p>
+        </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/apply-leave.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+</html>

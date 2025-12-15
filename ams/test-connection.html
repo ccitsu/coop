@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Connection Test - AMS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ccc;
+        }
+        .test-result.success {
+            background: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+        }
+        .test-result.error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+            color: #721c24;
+        }
+        .test-result.info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+            color: #0c5460;
+        }
+        .code-block {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-section">
+                <h1>Shaqra University</h1>
+                <h2>College of Computing and Information Technology</h2>
+                <h3>API Connection Test</h3>
+            </div>
+        </header>
+
+        <main>
+            <div class="test-container">
+                <h2><i class="fas fa-network-wired"></i> Connection Diagnostic Tool</h2>
+                <p>This tool will help diagnose connection issues with the Google Apps Script backend.</p>
+                
+                <div style="margin: 2rem 0;">
+                    <h3>Current Configuration:</h3>
+                    <div class="code-block" id="currentConfig">Loading...</div>
+                </div>
+
+                <button onclick="runTests()" class="btn btn-primary" id="testBtn">
+                    <i class="fas fa-play"></i> Run Diagnostic Tests
+                </button>
+                
+                <div id="testResults" style="margin-top: 2rem;"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Shaqra University - College of Computing and Information Technology</p>
+        </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script>
+        // Display current configuration
+        document.getElementById('currentConfig').textContent = 
+            `Script URL: ${CONFIG.SCRIPT_URL}\n` +
+            `Endpoints configured: ${Object.keys(CONFIG.ENDPOINTS).length}`;
+
+        async function runTests() {
+            const resultsDiv = document.getElementById('testResults');
+            const testBtn = document.getElementById('testBtn');
+            
+            testBtn.disabled = true;
+            testBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running Tests...';
+            resultsDiv.innerHTML = '';
+
+            // Test 1: Basic URL Access
+            await test1_BasicAccess(resultsDiv);
+            
+            // Test 2: POST Request
+            await test2_PostRequest(resultsDiv);
+            
+            // Test 3: Login Endpoint
+            await test3_LoginEndpoint(resultsDiv);
+
+            testBtn.disabled = false;
+            testBtn.innerHTML = '<i class="fas fa-redo"></i> Run Tests Again';
+        }
+
+        async function test1_BasicAccess(container) {
+            addResult(container, 'info', 'Test 1: Basic URL Access', 'Testing if the script URL is accessible...');
+            
+            try {
+                const response = await fetch(CONFIG.SCRIPT_URL, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                const text = await response.text();
+                
+                if (response.ok) {
+                    addResult(container, 'success', '✓ Test 1 Passed', 
+                        `Script is accessible. Status: ${response.status}\nResponse: ${text.substring(0, 100)}...`);
+                } else {
+                    addResult(container, 'error', '✗ Test 1 Failed', 
+                        `Server returned status: ${response.status}\nResponse: ${text}`);
+                }
+            } catch (error) {
+                addResult(container, 'error', '✗ Test 1 Failed', 
+                    `Error: ${error.message}\n\n` +
+                    `Possible causes:\n` +
+                    `1. Script URL is incorrect\n` +
+                    `2. Script is not deployed\n` +
+                    `3. Network/Firewall blocking access\n` +
+                    `4. Internet connection issue`);
+            }
+        }
+
+        async function test2_PostRequest(container) {
+            addResult(container, 'info', 'Test 2: POST Request Test', 'Testing POST request with simple data...');
+            
+            try {
+                const response = await fetch(CONFIG.SCRIPT_URL + '?action=test', {
+                    method: 'POST',
+                    mode: 'cors',
+                    body: JSON.stringify({test: 'data'})
+                });
+                
+                const text = await response.text();
+                let result;
+                
+                try {
+                    result = JSON.parse(text);
+                } catch (e) {
+                    result = text;
+                }
+                
+                if (response.ok) {
+                    addResult(container, 'success', '✓ Test 2 Passed', 
+                        `POST request successful.\nResponse: ${JSON.stringify(result, null, 2)}`);
+                } else {
+                    addResult(container, 'error', '✗ Test 2 Failed', 
+                        `Status: ${response.status}\nResponse: ${JSON.stringify(result, null, 2)}`);
+                }
+            } catch (error) {
+                addResult(container, 'error', '✗ Test 2 Failed', 
+                    `Error: ${error.message}\n\n` +
+                    `This usually means:\n` +
+                    `1. CORS is not properly configured\n` +
+                    `2. Script deployment has wrong "Who has access" setting\n` +
+                    `3. Network is blocking POST requests`);
+            }
+        }
+
+        async function test3_LoginEndpoint(container) {
+            addResult(container, 'info', 'Test 3: Login Endpoint Test', 'Testing actual login endpoint with dummy data...');
+            
+            try {
+                const response = await fetch(CONFIG.SCRIPT_URL + CONFIG.ENDPOINTS.LOGIN, {
+                    method: 'POST',
+                    mode: 'cors',
+                    body: JSON.stringify({
+                        universityId: 'TEST123',
+                        password: 'test123'
+                    })
+                });
+                
+                const text = await response.text();
+                let result;
+                
+                try {
+                    result = JSON.parse(text);
+                } catch (e) {
+                    addResult(container, 'error', '✗ Test 3 Failed', 
+                        `Could not parse JSON response.\nRaw response: ${text}`);
+                    return;
+                }
+                
+                if (result.success === false && result.message) {
+                    addResult(container, 'success', '✓ Test 3 Passed', 
+                        `Login endpoint is working correctly.\n` +
+                        `It returned an expected error for invalid credentials:\n` +
+                        `"${result.message}"\n\n` +
+                        `This is GOOD - it means the script is processing requests properly.`);
+                } else if (result.success === true) {
+                    addResult(container, 'success', '✓ Test 3 Passed', 
+                        `Login endpoint returned success (unexpected with test data, but endpoint is working).`);
+                } else {
+                    addResult(container, 'error', '✗ Test 3 Uncertain', 
+                        `Got unexpected response: ${JSON.stringify(result, null, 2)}`);
+                }
+            } catch (error) {
+                addResult(container, 'error', '✗ Test 3 Failed', 
+                    `Error: ${error.message}\n\n` +
+                    `The endpoint cannot be reached. Check:\n` +
+                    `1. Apps Script deployment settings\n` +
+                    `2. SCRIPT_URL in config.js\n` +
+                    `3. Code.gs has doPost function\n` +
+                    `4. Network/Firewall settings`);
+            }
+        }
+
+        function addResult(container, type, title, message) {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = `
+                <h4 style="margin-top: 0;">${title}</h4>
+                <pre style="white-space: pre-wrap; font-family: 'Courier New', monospace; margin: 0.5rem 0;">${message}</pre>
+            `;
+            container.appendChild(div);
+        }
+    </script>
+</body>
+</html>
